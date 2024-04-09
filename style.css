@@ -1,0 +1,96 @@
+body {
+    background-color: gray;
+}
+
+#gamefield{
+    border: 1px solid chartreuse;
+    width: fit-content;
+    display: grid;
+}
+
+#background{
+    grid-area: 1 / 1;
+    width: calc(16 * 32px);
+    height: calc(12 * 32px);
+}
+
+#items{
+    grid-area: 1 / 1;
+}
+
+#characters {
+    grid-area: 1 / 1;
+}
+
+#player{
+    width: 35px;
+    aspect-ratio: 16 / 20;
+    background-image: url('Images/Characters/Character\ 5.png');
+    background-size: 400% 400%;
+    image-rendering: pixelated;
+}
+
+#player.animate{
+    animation-duration: 0.7s;
+    animation-timing-function: steps(4);
+    animation-iteration-count: infinite;
+}
+
+#player.up{
+    background-position: 0% 35%;
+    animation-name: up;
+}
+
+#player.down{
+    background-position: 0% 0%;
+    animation-name: down;
+}   
+
+#player.left{
+    background-position: -0% 67%;
+    animation-name: left;
+}
+
+#player.right{
+    background-position: 0% 100%;
+    animation-name: right;
+}
+
+@keyframes up {
+    from {
+        background-position: 0% 35%;
+    }
+    to {
+        background-position: -400% 35%;
+    }
+}
+
+
+
+@keyframes down {
+    from {
+        background-position: 0% 0%;
+    }
+    to {
+        background-position: -400% 0%;
+    }
+}
+
+
+@keyframes left {
+    from {
+        background-position: 0% 67%;
+    }
+    to {
+        background-position: -400% 67%;
+    }
+}
+
+@keyframes right {
+    from {
+        background-position: 0% 100%;
+    }
+    to {
+        background-position: -400% 100%;
+    }
+}
