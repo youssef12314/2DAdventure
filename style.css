@@ -2,18 +2,75 @@ body {
     background-color: gray;
 }
 
-#gamefield{
-    border: 1px solid chartreuse;
+#gamefield {
+    border: 2px solid chartreuse;
     width: fit-content;
     display: grid;
+    justify-content: center;
 }
 
-#background{
+
+#background {
     grid-area: 1 / 1;
-    width: calc(16 * 32px);
-    height: calc(12 * 32px);
+    display: grid;
+    grid-template-columns: repeat(var(--GRID_WIDTH), max-content);
+    
 }
 
+
+#background .tile {
+    width: var(--TILE_SIZE);
+    aspect-ratio: 1 / 1;
+
+    background-repeat: no-repeat;
+    background-size: 100%;
+    image-rendering: pixelated;
+}
+
+.tile.path {
+    background-image: url('images/tiles/path.png')
+}
+
+.tile.grass {
+    background-image: url('images/tiles/grass.png')
+}
+
+.tile.water {
+    background-image: url('images/tiles/water.png')
+}
+.tile.wall {
+    background-image: url('images/tiles/wall.png')
+}
+.tile.floorstone {
+    background-image: url('images/tiles/floor_stone.png')
+}
+.tile.door {
+    background-image: url('images/tiles/door.png')
+}
+.tile.floorplanks {
+    background-image: url('images/tiles/floor_planks.png')
+}
+.tile.fencehori {
+    background-image: url('images/tiles/fence_hori.png')
+}
+.tile.fencevert {
+    background-image: url('images/tiles/fence_vert.png')
+}
+.tile.tree {
+    background-image: url('images/tiles/tree.png')
+}
+.tile.flowers {
+    background-image: url('images/tiles/flowers.png')
+}
+.tile.lava {
+    background-image: url('images/tiles/lava.png')
+}
+.tile.redwall{
+    background-image: url('images/tiles/redwall.png')
+}
+.tile.floorwood{
+    background-image: url('images/tiles/floor_wood.png')
+}
 #items{
     grid-area: 1 / 1;
 }
@@ -25,7 +82,7 @@ body {
 #player{
     width: 35px;
     aspect-ratio: 16 / 20;
-    background-image: url('Images/Characters/Character\ 5.png');
+    background-image: url('Images/Characters/Character 5.png');
     background-size: 400% 400%;
     image-rendering: pixelated;
 }
@@ -93,4 +150,22 @@ body {
     to {
         background-position: -400% 100%;
     }
+}
+
+.highlight{
+    outline: 2px dashed yellow;
+    translate: 0 0;
+}
+
+.show.rect {
+    outline: 2px solid red;
+}
+
+.show-reg-point::before{
+    content: "";
+    position: absolute;
+    background-color: cyan;
+    width: 3px;
+    height: 3px;
+    translate: var(--regX) var(--rexY);
 }
