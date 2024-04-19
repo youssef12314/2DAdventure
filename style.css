@@ -28,48 +28,48 @@ body {
 }
 
 .tile.path {
-    background-image: url('images/tiles/path.png')
+    background-image: url('Images/tiles/path.png')
 }
 
 .tile.grass {
-    background-image: url('images/tiles/grass.png')
+    background-image: url('Images/tiles/grass.png')
 }
 
 .tile.water {
-    background-image: url('images/tiles/water.png')
+    background-image: url('Images/tiles/water.png')
 }
 .tile.wall {
-    background-image: url('images/tiles/wall.png')
+    background-image: url('Images/tiles/wall.png')
 }
 .tile.floorstone {
-    background-image: url('images/tiles/floor_stone.png')
+    background-image: url('Images/tiles/floor_stone.png')
 }
 .tile.door {
-    background-image: url('images/tiles/door.png')
+    background-image: url('Images/tiles/door.png')
 }
 .tile.floorplanks {
-    background-image: url('images/tiles/floor_planks.png')
+    background-image: url('Images/tiles/floor_planks.png')
 }
 .tile.fencehori {
-    background-image: url('images/tiles/fence_hori.png')
+    background-image: url('Images/tiles/fence_hori.png')
 }
 .tile.fencevert {
-    background-image: url('images/tiles/fence_vert.png')
+    background-image: url('Images/tiles/fence_vert.png')
 }
 .tile.tree {
-    background-image: url('images/tiles/tree.png')
+    background-image: url('Images/tiles/tree.png')
 }
 .tile.flowers {
-    background-image: url('images/tiles/flowers.png')
+    background-image: url('Images/tiles/flowers.png')
 }
 .tile.lava {
-    background-image: url('images/tiles/lava.png')
+    background-image: url('Images/tiles/lava.png')
 }
 .tile.redwall{
-    background-image: url('images/tiles/redwall.png')
+    background-image: url('Images/tiles/redwall.png')
 }
 .tile.floorwood{
-    background-image: url('images/tiles/floor_wood.png')
+    background-image: url('Images/tiles/floor_wood.png')
 }
 #items {
     grid-area: 1 / 1;
