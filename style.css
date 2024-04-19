@@ -135,12 +135,41 @@ body {
     animation-name: right;
 }
 
-#enemy1{
-    width: 40px;
-    aspect-ratio: 16 / 20;
-    background-image: url('Images/character/enemies.png');
-    background-size: 1200% 400%;
+#enemies {
+    grid-area: 1 / 1;
+    display: grid;
+    width: 3px;
+    aspect-ratio: 5 / 5;
+    position: relative;
     image-rendering: pixelated;
+}
+
+.enemy.slime {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background-image: url('Images/character/enemies.png'); /* Apply background image */
+    background-size: 1200% 400%; /* Adjust background size as needed */
+    background-position: 0 0;
+
+}
+
+.enemy.ghost {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background-image: url('Images/character/enemies.png'); /* Apply background image */
+    background-position: -45% 3%;
+    background-size: 1300% 500%; /* Adjust background size as needed */
+
+}
+
+.enemy[style*="--row"] {
+    top: calc(var(--row) * var(--TILE_SIZE));
+}
+
+.enemy[style*="--col"] {
+    left: calc(var(--col) * var(--TILE_SIZE));
 }
 
 @keyframes up {

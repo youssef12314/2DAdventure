@@ -12,6 +12,7 @@ function start() {
   displayTiles();
   requestAnimationFrame(tick);
   createItems();
+  createEnemies();
 }
 
 let lastTimestamp = 0;
@@ -74,6 +75,20 @@ const tiles = [
     [0,13,12,12,12,13,0,1,0,0,0,0,0,0,0,0],
     [0,13,13,13,13,13,0,1,0,0,0,0,0,0,0,0]
 ]
+
+const enemiesGrid = [
+  [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,1,0,2,0,2,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+]
+
+const visualEnemiesGrid = [];
 
 
 
@@ -279,6 +294,43 @@ function createItems() {
     }
   }
 }
+
+function createEnemies() {
+  const visualEnemiesContainer = document.querySelector("#enemies");
+
+  for (let row = 0; row < GRID_HEIGHT; row++) {
+    visualEnemiesGrid[row] = [];
+    for (let col = 0; col < GRID_WIDTH; col++) {
+      if (enemiesGrid[row] && enemiesGrid[row][col] !== 0) {
+        const enemyType = enemiesGrid[row][col]; // Get the enemy type from the grid
+        let enemyClass = ""; // Initialize empty class name for enemy
+
+        // Determine the class name based on the enemy type
+        switch (enemyType) {
+          case 1:
+            enemyClass = "slime";
+            break;
+          case 2:
+            enemyClass = "ghost";
+            break;
+          // Add more cases for additional enemy types as needed
+          default:
+            enemyClass = "slime"; // Default to "slime" if unknown type
+        }
+
+        // Create the visual representation of the enemy
+        const visualEnemies = document.createElement("div");
+        visualEnemies.classList.add("enemy");
+        visualEnemies.classList.add(enemyClass); // Add the determined enemy class
+        visualEnemies.style.setProperty("--row", row);
+        visualEnemies.style.setProperty("--col", col);
+        visualEnemiesContainer.append(visualEnemies);
+
+        visualEnemiesGrid[row][col] = visualEnemies;
+      }
+    }
+  }
+}
 function checkForItems() {
   // find all the items under the player
   const items = getItemsUnderPlayer();
@@ -326,6 +378,8 @@ function displayTiles() {
     }
   }
 }
+
+
 
 function getClassForTileType(tileType) {
     switch (tileType) {
