@@ -148,8 +148,8 @@ body {
     position: absolute;
     width: 40px;
     height: 40px;
-    background-image: url('Images/character/enemies.png'); /* Apply background image */
-    background-size: 1200% 400%; /* Adjust background size as needed */
+    background-image: url('Images/character/enemies.png'); 
+    background-size: 1200% 400%; 
     background-position: 0 0;
 
 }
@@ -158,9 +158,9 @@ body {
     position: absolute;
     width: 40px;
     height: 40px;
-    background-image: url('Images/character/enemies.png'); /* Apply background image */
+    background-image: url('Images/character/enemies.png');
     background-position: -45% 3%;
-    background-size: 1300% 500%; /* Adjust background size as needed */
+    background-size: 1300% 500%; 
 
 }
 

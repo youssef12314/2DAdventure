@@ -1,6 +1,5 @@
 "use strict";
 
-// Controller
 
 window.addEventListener("load", start);
 
@@ -32,7 +31,7 @@ function tick(timestamp) {
   checkForItems();
 }
 
-// Model
+// *******************Model**********************
 
 //shooting mechaninc
 const projectiles = []
@@ -96,6 +95,8 @@ const GRID_HEIGHT = tiles.length; // row
 const GRID_WIDTH = tiles[0].length; // col
 const TILE_SIZE = 32;
 
+//*********************View***************** */
+
 function getTileAtCoordinate({ row, col }) {
   return tiles[row][col];
 }
@@ -108,121 +109,6 @@ function CoordinateFromPosition({ x, y }) {
 }
 
 function positionFromCoordinate() {}
-
-function keyDown(event) {
-  switch (event.key) {
-    case "d":
-    case "ArrowRight":
-      controls.right = true;
-      break;
-    case "a":
-    case "ArrowLeft":
-      controls.left = true;
-      break;
-    case "w":
-    case "ArrowUp":
-      controls.up = true;
-      break;
-    case "s":
-    case "ArrowDown":
-      controls.down = true;
-      break;
-  }
-}
-
-function keyUp(event) {
-  switch (event.key) {
-    case "d":
-    case "ArrowRight":
-      controls.right = false;
-      break;
-    case "a":
-    case "ArrowLeft":
-      controls.left = false;
-      break;
-    case "w":
-    case "ArrowUp":
-      controls.up = false;
-      break;
-    case "s":
-    case "ArrowDown":
-      controls.down = false;
-      break;
-  }
-}
-
-const controls = {
-  right: false,
-  left: false,
-  up: false,
-  down: false,
-};
-
-// this function allows the player to only move in one direction at a time
-function movePlayer(deltaTime) {
-    const speed = player.speed * deltaTime; // Calculate the distance to move based on speed and deltaTime
-  
-    const newPos = {
-      x: player.x,
-      y: player.y,
-    };
-  
-    // Reset moving state
-    player.moving = false;
-  
-    // Calculate the movement direction
-    let deltaX = 0;
-    let deltaY = 0;
-  
-    if (controls.right) {
-      deltaX += speed;
-    }
-    if (controls.left) {
-      deltaX -= speed;
-    }
-    if (controls.up) {
-      deltaY -= speed;
-    }
-    if (controls.down) {
-      deltaY += speed;
-    }
-  
-    // Normalize the direction vector to ensure consistent speed
-    const length = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-    if (length !== 0) {
-      deltaX /= length;
-      deltaY /= length;
-    }
-  
-    // Adjust position based on the direction and speed
-    newPos.x += deltaX * speed;
-    newPos.y += deltaY * speed;
-  
-    // Update moving state
-    player.moving = length !== 0;
-  
-    if (canMoveTo(newPos)) {
-      player.x = newPos.x;
-      player.y = newPos.y;
-    }
-  }
-function canMoveTo(pos) {
-  const { row, col } = CoordinateFromPosition(pos);
-
-  if (row < 0 || row >= GRID_HEIGHT || col < 0 || col >= GRID_WIDTH) {
-    return false;
-  }
-
-  const tileType = getTileAtCoordinate({ row, col });
-  switch (tileType) {
-    case 0:
-    case 1:
-    case 2:
-      return true;
-    case 3:
-      return false;
-  }
-}
 
 function displayPlayerAnimation() {
   const visualPlayer = document.querySelector("#player");
@@ -261,7 +147,6 @@ function createTiles() {
   const gamefield = document.querySelector("#gamefield")
 
   const background = document.querySelector("#background");
-  // For hvert af dem - lav en div med klassen item og tilføj til background, append
   for (let row = 0; row < GRID_HEIGHT; row++) {
     for (let col = 0; col < GRID_WIDTH; col++) {
       const tile = document.createElement("div");
@@ -302,10 +187,8 @@ function createEnemies() {
     visualEnemiesGrid[row] = [];
     for (let col = 0; col < GRID_WIDTH; col++) {
       if (enemiesGrid[row] && enemiesGrid[row][col] !== 0) {
-        const enemyType = enemiesGrid[row][col]; // Get the enemy type from the grid
-        let enemyClass = ""; // Initialize empty class name for enemy
-
-        // Determine the class name based on the enemy type
+        const enemyType = enemiesGrid[row][col]; 
+        let enemyClass = ""; 
         switch (enemyType) {
           case 1:
             enemyClass = "slime";
@@ -313,15 +196,13 @@ function createEnemies() {
           case 2:
             enemyClass = "ghost";
             break;
-          // Add more cases for additional enemy types as needed
           default:
-            enemyClass = "slime"; // Default to "slime" if unknown type
+            enemyClass = "slime"; 
         }
 
-        // Create the visual representation of the enemy
         const visualEnemies = document.createElement("div");
         visualEnemies.classList.add("enemy");
-        visualEnemies.classList.add(enemyClass); // Add the determined enemy class
+        visualEnemies.classList.add(enemyClass);
         visualEnemies.style.setProperty("--row", row);
         visualEnemies.style.setProperty("--col", col);
         visualEnemiesContainer.append(visualEnemies);
@@ -332,22 +213,16 @@ function createEnemies() {
   }
 }
 function checkForItems() {
-  // find all the items under the player
   const items = getItemsUnderPlayer();
   if(items.length > 0) {
-    // if we find some items - take them all!
     items.forEach(coords => takeItem(coords));
   }
 }
 function getItemsUnderPlayer() {
-  // prepare an empty list for return
   const items = [];
-  // find the tile that the player is on
   const coord = CoordinateFromPosition(player);
-  // get the item on that tile
   const item = itemsGrid[coord.row][coord.col];
   if (item !== 0) {
-    // there is an item here - store it in the list!
     items.push(coord);
   }
 
@@ -467,4 +342,114 @@ function showDebugPlayerRegistrationPoint() {
 
   visualPlayer.style.setProperty("--regX", player.regX + "px");
   visualPlayer.style.setProperty("--regY", player.regY + "px");
+}
+
+//****************Controller************** */
+
+function keyDown(event) {
+  switch (event.key) {
+    case "d":
+    case "ArrowRight":
+      controls.right = true;
+      break;
+    case "a":
+    case "ArrowLeft":
+      controls.left = true;
+      break;
+    case "w":
+    case "ArrowUp":
+      controls.up = true;
+      break;
+    case "s":
+    case "ArrowDown":
+      controls.down = true;
+      break;
+  }
+}
+
+function keyUp(event) {
+  switch (event.key) {
+    case "d":
+    case "ArrowRight":
+      controls.right = false;
+      break;
+    case "a":
+    case "ArrowLeft":
+      controls.left = false;
+      break;
+    case "w":
+    case "ArrowUp":
+      controls.up = false;
+      break;
+    case "s":
+    case "ArrowDown":
+      controls.down = false;
+      break;
+  }
+}
+
+const controls = {
+  right: false,
+  left: false,
+  up: false,
+  down: false,
+};
+
+function movePlayer(deltaTime) {
+    const speed = player.speed * deltaTime; 
+  
+    const newPos = {
+      x: player.x,
+      y: player.y,
+    };
+  
+    player.moving = false;
+  
+    let deltaX = 0;
+    let deltaY = 0;
+  
+    if (controls.right) {
+      deltaX += speed;
+    }
+    if (controls.left) {
+      deltaX -= speed;
+    }
+    if (controls.up) {
+      deltaY -= speed;
+    }
+    if (controls.down) {
+      deltaY += speed;
+    }
+  
+    const length = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    if (length !== 0) {
+      deltaX /= length;
+      deltaY /= length;
+    }
+    newPos.x += deltaX * speed;
+    newPos.y += deltaY * speed;
+  
+    player.moving = length !== 0;
+  
+    if (canMoveTo(newPos)) {
+      player.x = newPos.x;
+      player.y = newPos.y;
+    }
+  }
+function canMoveTo(pos) {
+  const { row, col } = CoordinateFromPosition(pos);
+
+  if (row < 0 || row >= GRID_HEIGHT || col < 0 || col >= GRID_WIDTH) {
+    return false;
+  }
+
+  const tileType = getTileAtCoordinate({ row, col });
+  switch (tileType) {
+    case 0:
+    case 1:
+    case 2:
+      return true;
+    case 3:
+      return false;
+  }
 }
