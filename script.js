@@ -6,16 +6,12 @@ window.addEventListener("load", start);
 
 function start() {
   console.log("JavaScript kører...");
-
   document.addEventListener("keydown", keyDown);
   document.addEventListener("keyup", keyUp);
-
-  createTiles();
+  createTiles(); 
   displayTiles();
-
-  
-
   requestAnimationFrame(tick);
+  createItems();
 }
 
 let lastTimestamp = 0;
@@ -32,18 +28,39 @@ function tick(timestamp) {
   displayPlayerAnimation();
 
   showDebugging();
+  checkForItems();
 }
 
 // Model
+
+//shooting mechaninc
+const projectiles = []
+const projectileSpeed = 200;
+
 const player = {
-  x: 0,
-  y: 0,
-  regX: 10,
+  x: 100,
+  y: 100,
+  regX: 8,
   regY: 12,
   speed: 120,
   moving: false,
   direction: undefined,
 };
+
+
+const itemsGrid = [
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+]
+
+const visualItemsGrid = [];
 
 const tiles = [
     [0,10,0,0,4,5,5,5,5,5,4,0,3,0,0,0],
@@ -57,6 +74,8 @@ const tiles = [
     [0,13,12,12,12,13,0,1,0,0,0,0,0,0,0,0],
     [0,13,13,13,13,13,0,1,0,0,0,0,0,0,0,0]
 ]
+
+
 
 const GRID_HEIGHT = tiles.length; // row
 const GRID_WIDTH = tiles[0].length; // col
@@ -223,6 +242,9 @@ function displayPlayerAtPosition() {
 }
 
 function createTiles() {
+
+  const gamefield = document.querySelector("#gamefield")
+
   const background = document.querySelector("#background");
   // For hvert af dem - lav en div med klassen item og tilføj til background, append
   for (let row = 0; row < GRID_HEIGHT; row++) {
@@ -232,10 +254,65 @@ function createTiles() {
       background.append(tile);
     }
   }
-  background.style.setProperty("--GRID_WIDTH", GRID_WIDTH);
-  background.style.setProperty("--GRID_HEIGHT", GRID_HEIGHT);
-  background.style.setProperty("--TILE_SIZE", TILE_SIZE + "px");
+  gamefield.style.setProperty("--GRID_WIDTH", GRID_WIDTH);
+  gamefield.style.setProperty("--GRID_HEIGHT", GRID_HEIGHT);
+  gamefield.style.setProperty("--TILE_SIZE", TILE_SIZE + "px");
 }
+
+
+function createItems() {
+  const visualItemsContainer = document.querySelector("#items");
+
+  for (let row = 0; row < GRID_HEIGHT; row++) {
+    visualItemsGrid[row] = [];
+    for (let col = 0; col < GRID_WIDTH; col++) {
+      if (itemsGrid[row] && itemsGrid[row][col] !== 0) {
+        const visualItems = document.createElement("div");
+        visualItems.classList.add("item");
+        visualItems.classList.add("chest");
+        visualItems.style.setProperty("--row", row);
+        visualItems.style.setProperty("--col", col);
+        visualItemsContainer.append(visualItems);
+
+        visualItemsGrid[row][col] = visualItems;
+      }
+    }
+  }
+}
+function checkForItems() {
+  // find all the items under the player
+  const items = getItemsUnderPlayer();
+  if(items.length > 0) {
+    // if we find some items - take them all!
+    items.forEach(coords => takeItem(coords));
+  }
+}
+function getItemsUnderPlayer() {
+  // prepare an empty list for return
+  const items = [];
+  // find the tile that the player is on
+  const coord = CoordinateFromPosition(player);
+  // get the item on that tile
+  const item = itemsGrid[coord.row][coord.col];
+  if (item !== 0) {
+    // there is an item here - store it in the list!
+    items.push(coord);
+  }
+
+  return items;
+}
+
+function takeItem(coords){
+  const itemValue = itemsGrid[coords.row][coords.col];
+  if(itemValue !==0){
+    itemsGrid[coords.row][coords.col] = 0;
+
+    const visualItem = visualItemsGrid[coords.row][coords.col];
+    visualItem.classList.add("take");
+  }
+}
+
+
 
 function displayTiles() {
   const visualTiles = document.querySelectorAll("#background .tile");
